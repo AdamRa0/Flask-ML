@@ -1,5 +1,5 @@
 import tensorflow as tf
-from utils.constants import IMG_SIZE
+from .constants import IMG_SIZE
 
 
 def preprocess_image(file_path: str):
