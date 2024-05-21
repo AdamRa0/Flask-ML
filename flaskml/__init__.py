@@ -14,15 +14,20 @@ ALLOWED_EXTENSIONS: set[str] = {"png", "jpg", "jpeg"}
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
 def create_app():
     app = Flask(__name__)
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+    if os.path.exists(app.config['UPLOAD_FOLDER']):
+        pass
+    else:
+        os.mkdir(app.config['UPLOAD_FOLDER'])
 
     @app.route("/", methods=["GET", "POST"])
     def home():
         chance: str = ""
         file_label: str = ""
+
 
         if request.method == "POST":
             if "file" not in request.files:
