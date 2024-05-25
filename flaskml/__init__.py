@@ -3,12 +3,10 @@ from werkzeug.utils import secure_filename
 
 from .utils.process_single_pic import process_single_image
 from .utils.load_model import load_model
+from .utils.constants import UPLOAD_FOLDER, MODEL_FOLDER, ALLOWED_EXTENSIONS
 
 import numpy as np
 import os
-
-UPLOAD_FOLDER: str = "uploads"
-ALLOWED_EXTENSIONS: set[str] = {"png", "jpg", "jpeg"}
 
 
 def allowed_file(filename):
@@ -17,11 +15,17 @@ def allowed_file(filename):
 def create_app():
     app = Flask(__name__)
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+    app.config["MODEL_FOLDER"] = MODEL_FOLDER
 
     if os.path.exists(app.config['UPLOAD_FOLDER']):
         pass
     else:
         os.mkdir(app.config['UPLOAD_FOLDER'])
+
+    if os.path.exists(app.config['MODEL_FOLDER']):
+        pass
+    else:
+        os.mkdir(app.config['MODEL_FOLDER'])
 
     @app.route("/", methods=["GET", "POST"])
     def home():
@@ -44,9 +48,9 @@ def create_app():
                 file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
                 processed_data = process_single_image(file)
-                model = load_model("path to saved model")
+                model = load_model(os.path.join(app.config['MODEL_FOLDER'], "20240520-00051716163521-full-data-VGG-16-Adam-Optimizer-Model.keras"))
                 predictions = model.predict(processed_data)
-                chance = f"{predictions[np.argmax(predictions)] * 100:2.0f}"
+                chance = f"{predictions[np.argmax(predictions)] * 100:2.0f} %"
 
         return render_template("home.html", p=chance, label=file_label)
     

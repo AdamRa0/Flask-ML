@@ -10,3 +10,6 @@ FILTER_SIZE_ONE: int = 64
 FILTER_SIZE_TWO: int = 128
 FILTER_SIZE_THREE: int = 256
 FILTER_SIZE_FOUR: int = 512
+UPLOAD_FOLDER: str = "uploads"
+MODEL_FOLDER: str = "models"
+ALLOWED_EXTENSIONS: set[str] = {"png", "jpg", "jpeg"}
