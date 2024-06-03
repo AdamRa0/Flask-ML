@@ -18,7 +18,7 @@ flask --app flaskml run
 ```
 
 You however first, need to create the model, train it and save it.
-To load it, replace the text, path to saved model with the path to your saved model. This is done inside flaskml/__init__.py
+To load it, replace the text, path to saved model, with the path to your saved model. This is done inside flaskml/__init__.py
 
 The model is created inside the model.py file. To create your model, run this file seperately.
 
